@@ -2,14 +2,15 @@ package entities
 
 //请求数据结构
 type TestQueueRequest struct {
-	Name   string `json:"name" validate:"required" example:"小二"`
-	Mobile string `json:"mobile" validate:"required" example:"15906063661"`
-	Email  string `json:"email" validate:"required" example:"15906063661@qq.com"`
+	Name    string `json:"name" validate:"required" example:"小二"`
+	Mobile  string `json:"mobile" validate:"required" example:"15906063661"`
+	Email   string `json:"email" validate:"required" example:"15906063661@qq.com"`
+	TraceId string `json:"trace_id" example:"1212121"`
 }
 
 //返回数据结构
 type TestQueueResponse struct {
-	Status int64 `json:"id" example:"1"`
+	Status int `json:"id" example:"1"`
 }
 
 //请求数据结构

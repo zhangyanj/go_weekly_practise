@@ -41,8 +41,8 @@ func GetInstance() *UserModel {
 	return m
 }
 
-func (m *UserModel) SaveUser(user User) (affectedRows int64, err error) {
-	return m.GetDb().Table(new(User)).InsertOne(user)
+func (m *UserModel) SaveUser(user *User) (affectedRows int64, err error) {
+	return m.GetDb().Table(new(User)).Insert(user)
 }
 
 func (m *UserModel) GetListByName(name string) (*User, error) {
