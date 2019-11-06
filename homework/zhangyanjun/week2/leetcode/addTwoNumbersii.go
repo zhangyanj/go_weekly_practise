@@ -21,7 +21,7 @@ type ListNode struct {
 //输出: 7 -> 8 -> 0 -> 7
 
 
-//基础解法
+//基础解法 翻转链表做加法之后再翻转回去
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	l1 = reserveListNode(l1)
 	l2 = reserveListNode(l2)
@@ -31,10 +31,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		Next:nil,
 	}
 	temp := ans
-	for {
-		if l1 == nil || l2 == nil {
-			break;
-		}
+	for ;l1 != nil && l2 != nil; {
 		ans.Next = &ListNode{
 			Val:(l1.Val + l2.Val + jin) % 10,
 			Next:nil,
@@ -44,10 +41,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		l1 = l1.Next
 		l2 = l2.Next
 	}
-	for {
-		if l2 == nil {
-			break;
-		}
+	for ;l2 != nil; {
 		ans.Next = &ListNode{
 			Val:(l2.Val + jin) % 10,
 			Next:nil,
@@ -56,10 +50,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		ans = ans.Next
 		l2 = l2.Next
 	}
-	for {
-		if l1 == nil {
-			break;
-		}
+	for ;l1 != nil; {
 		ans.Next = &ListNode{
 			Val:(l1.Val + jin) % 10,
 			Next:nil,
@@ -80,10 +71,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 func reserveListNode (l *ListNode) *ListNode {
 	var pre = (*ListNode)(nil)
-	for {
-		if (l == nil) {
-			break;
-		}
+	for ;l != nil; {
 		next := l.Next
 		l.Next = pre
 		pre = l
@@ -92,20 +80,32 @@ func reserveListNode (l *ListNode) *ListNode {
 	return pre
 }
 
-//follow up  todo 还没写完
-
+//follow up
+//思路：先把链表补全，再递归相加两个链表
 func addTwoNumbers1(l1 *ListNode, l2 *ListNode) *ListNode {
 	l1, l2 = buildList(l1, l2, getLen(l1), getLen(l2))
-
-
+	res, jin := run(l1, l2);
+	if (jin == 0) {
+		return res
+	}
+	return &ListNode {
+		Val:jin,
+		Next:res,
+	}
 }
 
-func run (l1 *ListNode, l2 *ListNode, res *ListNode) {
-	head := &ListNode {
-		Val:0,
-		Next:nil,
+func run (l1 *ListNode, l2 *ListNode) (res *ListNode, jin int) {
+	jin = 0
+	if (l1 == nil && l2 == nil) {
+		return nil, 0
 	}
-
+	tempres, j := run(l1.Next, l2.Next)
+	res = &ListNode {
+		Val:(l1.Val + l2.Val + j)%10,
+		Next:tempres,
+	}
+	jin = (l1.Val + l2.Val + j)/10
+	return
 }
 
 func buildList(l1 *ListNode, l2 *ListNode, len1 int, len2 int) (r1 *ListNode, r2 *ListNode)  {
